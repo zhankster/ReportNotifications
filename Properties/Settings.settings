@@ -1,0 +1,12 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="ReportNotifications.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="CONN_CIPS" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Data Source=(local);Initial Catalog=CIPS;Integrated Security=true</Value>
+    </Setting>
+    <Setting Name="CONN_RX" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Data Source=(local);Initial Catalog=RxBackend;Integrated Security=true</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
