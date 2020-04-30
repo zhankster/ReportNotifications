@@ -46,5 +46,29 @@ namespace ReportNotifications.Properties {
                 this["CONN_RX"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("2")]
+        public int FAC_COLUMN {
+            get {
+                return ((int)(this["FAC_COLUMN"]));
+            }
+            set {
+                this["FAC_COLUMN"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("test.rpt")]
+        public string NOTIFY_RPT {
+            get {
+                return ((string)(this["NOTIFY_RPT"]));
+            }
+            set {
+                this["NOTIFY_RPT"] = value;
+            }
+        }
     }
 }

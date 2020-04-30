@@ -1,0 +1,17 @@
+﻿            //Declare and instantiate a new process component.
+            //Process process1;
+            //process1 = new Process();
+
+
+            ////Do not receive an event when the process exits.
+            //process1.EnableRaisingEvents = false;
+
+
+            ////The "/C" Tells Windows to Run The Command then Terminate 
+            //string strCmdLine;
+            ////strCmdLine = "/C regenresx " + textBox1.Text + " " + textBox2.Text;
+            ////strCmdLine = "/C regenresx - S Rx - F C:\\Files\\OP.rpt - O C:\\Files\\OPP.pdf - E pdf - a \"Fac: DJ\"";
+            //strCmdLine = "/C regenresx -S Rx -F C:\\Files\\OP.rpt -O C:\\Files\\OPP.pdf -E pdf -a \"Fac: DJ\"";
+            ////CrystalReportsNinja.exe - S Rx - F C:\Files\OP.rpt - O C:\Files\OPP.pdf - E pdf - a "Fac:DJ"
+            //System.Diagnostics.Process.Start("CrystalReportsNinja.exe", strCmdLine);
+            //process1.Close();

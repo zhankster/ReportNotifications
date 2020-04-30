@@ -16,7 +16,9 @@ namespace ReportNotifications
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Main());
+            Application.Run((MainForm = new Main()));
         }
+
+        public static Main MainForm;
     }
 }

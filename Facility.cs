@@ -8,6 +8,17 @@ namespace ReportNotifications
 {
     public class Facility
     {
+        public Facility(string code, string name, string phone, string fax, string email, string notify_type, bool valid_code)
+        {
+            this.code = code;
+            this.name = name;
+            this.phone = phone;
+            this.fax = fax;
+            this.email = email;
+            this.notify_type = notify_type;
+            this.valid_code = valid_code;
+        }
+
         public string code { get; set; }
         public string name { get; set; }
         public string phone { get; set; }

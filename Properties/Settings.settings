@@ -8,5 +8,11 @@
     <Setting Name="CONN_RX" Type="System.String" Scope="User">
       <Value Profile="(Default)">Data Source=(local);Initial Catalog=RxBackend;Integrated Security=true</Value>
     </Setting>
+    <Setting Name="FAC_COLUMN" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">2</Value>
+    </Setting>
+    <Setting Name="NOTIFY_RPT" Type="System.String" Scope="User">
+      <Value Profile="(Default)">test.rpt</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
