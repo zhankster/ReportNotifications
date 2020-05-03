@@ -11,7 +11,8 @@ using Excel = Microsoft.Office.Interop.Excel;
 using System.Data.SqlClient;
 using System.Diagnostics;
 using CrystalReportsNinja;
-
+using System.Security.Cryptography;
+using System.IO;
 
 namespace ReportNotifications
 {
@@ -20,12 +21,14 @@ namespace ReportNotifications
         public Main()
         {
             InitializeComponent();
-            CONN_CIPS = prop.CONN_CIPS;
+            CONN_CIPS = prop.CIPS;
+            GetSettings();
         }
 
         #region Global Vars
         ReportNotifications.Properties.Settings prop = ReportNotifications.Properties.Settings.Default;
         static string CONN_CIPS = "";
+        static string CONN_RX = "";
         List<Facility> facilities = new List<Facility>();
         public struct Fac 
         {
@@ -78,6 +81,48 @@ namespace ReportNotifications
         #endregion
 
         #region Reporting Funcions
+
+        public void ExportReport(string report, string export_path, string export_type, string[] parms, string dsn)
+        {
+
+            Utility.WriteActivity(gvNotiifications.Rows.Count.ToString());
+            var current_date = DateTime.Now.ToString("MM-dd-yyyy");
+            var report_date = dptFacExport.Value.ToString("MM-dd-yyyy");
+            if (current_date == report_date)
+            {
+                DialogResult result = MessageBox.Show("The select date is the same as the current date\nDo you want to use it?",
+                    "Use Current Date", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (result == DialogResult.No)
+                {
+                    return;
+                }
+            }
+
+            string code = "", typ="", valid="";
+            for (int i = 0; i+1 < gvNotiifications.Rows.Count; i++)
+            {
+                code = gvNotiifications.Rows[i].Cells[0].Value.ToString();
+                typ = gvNotiifications.Rows[i].Cells[2].Value.ToString();
+                valid = gvNotiifications.Rows[i].Cells[3].Value.ToString();
+
+                string[] rpt = { "-S", dsn,
+                "-F", report,
+                "-O", export_path + current_date + "_" + code + ".pdf",
+                "-E", export_type};
+                string[] p = { "-A", "Facility:" + code, "-A", "DateAfter:" + report_date };
+
+                var rpt_data = rpt.Concat(p).ToArray();
+
+                if (valid == "True")
+                {
+                    Utility.WriteActivity(code + "- Notify Type: " + typ);
+                    RunReport(rpt_data);
+                }
+
+            }
+
+            //RunReport(rpt_data);
+        }
         public void RunReport(string[] args)
         {
             try
@@ -112,6 +157,39 @@ namespace ReportNotifications
         #endregion
 
         #region Utility Functions
+        public static void WriteConfig(string key, string val)
+        {
+            Properties.Settings.Default[key] = val;
+            Properties.Settings.Default.Save();
+        }
+
+        public static string ReadConfig(string key)
+        {
+            return Properties.Settings.Default[key].ToString();
+        }
+
+        public void GetSettings()
+        {
+            txtNotifyReport.Text = ReadConfig("NotifyReport");
+            txtNotifyExports.Text = ReadConfig("NotifyExports");
+            txtCIPS.Text = ReadConfig("CIPS");
+            txtRxBackend.Text = ReadConfig("RxBackend");
+            CONN_CIPS = ReadConfig("CIPS");
+            CONN_RX = ReadConfig("RxBackend");
+            txtAddress.Text = ReadConfig("EmailAddress");
+            txtPassword.Text  = Decrypt(ReadConfig("EmailPassword"));
+            txtMailbox.Text = ReadConfig("Mailbox");
+            txtEmailServer.Text = ReadConfig("EmailServer");
+        }
+
+        public void UpdateSettings(string configName, string newText, string activityText, bool includeValues)
+        {
+            string prevText = ReadConfig(configName);
+            string values = includeValues ? " [" + prevText + "] to [" + newText + "]" : "";
+            WriteConfig(configName, newText);
+            WriteActivity(activityText + values);
+        }
+
         public void WriteActivity(string msg)
         {
             var dt = DateTime.Now.ToString("yy-MM-dd HH:mm:ss");
@@ -232,12 +310,75 @@ namespace ReportNotifications
                 }
             }
         }
+
+        public static string Encrypt(string textToEncrypt)
+        {
+            try
+            {
+                string ToReturn = "";
+                string _key = "ay$a5%&jwrtmnh;lasjdf98787";
+                string _iv = "abc@98797hjkas$&asd(*$%";
+                byte[] _ivByte = { };
+                _ivByte = System.Text.Encoding.UTF8.GetBytes(_iv.Substring(0, 8));
+                byte[] _keybyte = { };
+                _keybyte = System.Text.Encoding.UTF8.GetBytes(_key.Substring(0, 8));
+                MemoryStream ms = null; CryptoStream cs = null;
+                byte[] inputbyteArray = System.Text.Encoding.UTF8.GetBytes(textToEncrypt);
+                using (DESCryptoServiceProvider des = new DESCryptoServiceProvider())
+                {
+                    ms = new MemoryStream();
+                    cs = new CryptoStream(ms, des.CreateEncryptor(_keybyte, _ivByte), CryptoStreamMode.Write);
+                    cs.Write(inputbyteArray, 0, inputbyteArray.Length);
+                    cs.FlushFinalBlock();
+                    ToReturn = Convert.ToBase64String(ms.ToArray());
+                }
+                return ToReturn;
+            }
+            catch (Exception ae)
+            {
+                throw new Exception(ae.Message, ae.InnerException);
+            }
+        }
+
+        public static string Decrypt(string textToDecrypt)
+        {
+            try
+            {
+                string ToReturn = "";
+                string _key = "ay$a5%&jwrtmnh;lasjdf98787";
+                string _iv = "abc@98797hjkas$&asd(*$%";
+                byte[] _ivByte = { };
+                _ivByte = System.Text.Encoding.UTF8.GetBytes(_iv.Substring(0, 8));
+                byte[] _keybyte = { };
+                _keybyte = System.Text.Encoding.UTF8.GetBytes(_key.Substring(0, 8));
+                MemoryStream ms = null; CryptoStream cs = null;
+                byte[] inputbyteArray = new byte[textToDecrypt.Replace(" ", "+").Length];
+                inputbyteArray = Convert.FromBase64String(textToDecrypt.Replace(" ", "+"));
+                using (DESCryptoServiceProvider des = new DESCryptoServiceProvider())
+                {
+                    ms = new MemoryStream();
+                    cs = new CryptoStream(ms, des.CreateDecryptor(_keybyte, _ivByte), CryptoStreamMode.Write);
+                    cs.Write(inputbyteArray, 0, inputbyteArray.Length);
+                    cs.FlushFinalBlock();
+                    Encoding encoding = Encoding.UTF8;
+                    ToReturn = encoding.GetString(ms.ToArray());
+                }
+                return ToReturn;
+            }
+            catch (Exception ae)
+            {
+                throw new Exception(ae.Message, ae.InnerException);
+            }
+           
+        }
+
         #endregion
 
         #region Click Events
         private void btnOpen_Click(object sender, EventArgs e)
         {
             OpenFileDialog fd = new OpenFileDialog();
+            fd.Filter = "Excel Files | *.xlsx; *.xls";
             //WriteActivity("Open File Dialog");
 
             if (fd.ShowDialog() == DialogResult.OK)
@@ -246,31 +387,133 @@ namespace ReportNotifications
             }
         }
 
+        private void btnFileExport_Click(object sender, EventArgs e)
+        {
+            string[] parms = { "-A", "Facility:DJ", "-A", "DateAfter:05-01-2020" };
+            ExportReport(txtNotifyReport.Text,  txtNotifyExports.Text, "pdf", parms, "CIPS");
+        }
+
+        private void btnNotifyReport_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Do you want to update the selected value?", "Update", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+            {
+                return;
+            }
+
+            var folder = "";
+            OpenFileDialog fbd = new OpenFileDialog();
+            fbd.Filter = "Report Files | *.rpt";
+
+            if (fbd.ShowDialog() == DialogResult.OK)
+            {
+                if (string.IsNullOrEmpty(fbd.FileName.ToString()))
+                {
+                    return;
+                }
+
+                folder = fbd.FileName;
+                txtNotifyReport.Text = folder;
+                WriteConfig("NotifyReport", folder);
+                Utility.WriteActivity("Notify Report updated");
+            }
+            else
+            {
+                return;
+            }
+        }
+
+        private void btnNotifyExports_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Do you want to update the selected value?", "Update", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+            {
+                return;
+            }
+
+            var folder = "";
+            FolderBrowserDialog fbd = new FolderBrowserDialog();
+            if (fbd.ShowDialog() == DialogResult.OK)
+            {
+                if (string.IsNullOrEmpty(fbd.SelectedPath.ToString()))
+                {
+                    return;
+                }
+
+                folder = fbd.SelectedPath + @"\";
+                txtNotifyExports.Text = folder;
+                WriteConfig("NotifyExports", folder);
+                Utility.WriteActivity("Notify Exports updated");
+            }
+            else
+            {
+                return;
+            }
+        }
+
+        private void btnTextBox_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var btnName = ((sender as Button).Name);
+                (sender as Button).BackColor = Color.Yellow;
+
+                if (MessageBox.Show("Do you want to update the selected value?", "Update", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+                {
+                    return;
+                }
+                switch (btnName)
+                {
+                    case "btnCIPS":
+                        UpdateSettings("CIPS", txtCIPS.Text, "CIPS connection changed from ", true);
+                        CONN_CIPS = txtCIPS.Text;
+                        break;
+                    case "btnRxBackend":
+                        UpdateSettings("RxBackend", txtRxBackend.Text, "RxBackend connection changed from ", true);
+                        CONN_RX = txtRxBackend.Text;
+                        break;
+                    case "btnAddress":
+                        UpdateSettings("EmailAddress", txtAddress.Text, "Email Address changed from ", true);
+                        CONN_RX = txtRxBackend.Text;
+                        break;
+                    case "btnPassword":
+                        UpdateSettings("EmailPassword", Encrypt(txtPassword.Text), "Email Password changed", false);
+                        break;
+                    case "btnMailbox":
+                        UpdateSettings("Mailbox", txtMailbox.Text, "Mailbox changed from ", true);
+                        break;
+                    case "btnEmailServer":
+                        UpdateSettings("EmailServer", txtEmailServer.Text, "Email server changed from ", true);
+                        break;
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                //LogError(ex.Message);
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                (sender as Button).BackColor = Color.Transparent;
+            }
+
+        }
+
         private void btnTest_Click(object sender, EventArgs e)
         {
             //Utility ut = new Utility();
-            Utility.WriteActivity("test");
-            //WriteActivity("main");
+            //Utility.WriteActivity("test");
+            ////WriteActivity("main");
+            //string[] parms = { "-A", "Fac:DJ" };
+            //ExportReport(@"C:\Files\OP.rpt", @"C:\Files\", "pdf", parms, "Rx");
+            txtInfo.Text = Encrypt(txtPassword.Text);
+            txtInfo.Text += txtPassword.Text;
 
-            string[] report = { "-S", "Rx",
-                "-F", @"C:\Files\OP.rpt",
-                "-O", @"C:\Files\OPP.pdf",
-                "-E", "pdf",
-                "-A",  "Fac:DJ"};
-
-            WriteActivity(report[0] + " " + report[1]);
-            WriteActivity(report[2] + " " + report[3]);
-            WriteActivity(report[4] + " " + report[5]);
-            WriteActivity(report[6] + " " + report[7]);
-            WriteActivity(report[8] + " " + report[9]);
-            RunReport(report);
-
-
-            //var fac = GetFacility("IA");
-            //MessageBox.Show(fac.name + "::" + fac.email + "::" + fac.fax);
         }
+
+
         #endregion
 
-
+        
     }
 }

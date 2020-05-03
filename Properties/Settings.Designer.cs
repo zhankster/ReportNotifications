@@ -12,7 +12,7 @@ namespace ReportNotifications.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.4.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.5.0.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -26,24 +26,24 @@ namespace ReportNotifications.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("Data Source=(local);Initial Catalog=CIPS;Integrated Security=true")]
-        public string CONN_CIPS {
+        public string CIPS {
             get {
-                return ((string)(this["CONN_CIPS"]));
+                return ((string)(this["CIPS"]));
             }
             set {
-                this["CONN_CIPS"] = value;
+                this["CIPS"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("Data Source=(local);Initial Catalog=RxBackend;Integrated Security=true")]
-        public string CONN_RX {
+        public string RxBackend {
             get {
-                return ((string)(this["CONN_RX"]));
+                return ((string)(this["RxBackend"]));
             }
             set {
-                this["CONN_RX"] = value;
+                this["RxBackend"] = value;
             }
         }
         
@@ -61,13 +61,73 @@ namespace ReportNotifications.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("test.rpt")]
-        public string NOTIFY_RPT {
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string NotifyExports {
             get {
-                return ((string)(this["NOTIFY_RPT"]));
+                return ((string)(this["NotifyExports"]));
             }
             set {
-                this["NOTIFY_RPT"] = value;
+                this["NotifyExports"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string NotifyReport {
+            get {
+                return ((string)(this["NotifyReport"]));
+            }
+            set {
+                this["NotifyReport"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("zrefugee@gmail.com")]
+        public string EmailAddress {
+            get {
+                return ((string)(this["EmailAddress"]));
+            }
+            set {
+                this["EmailAddress"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("/wfORGDSeIA=")]
+        public string EmailPassword {
+            get {
+                return ((string)(this["EmailPassword"]));
+            }
+            set {
+                this["EmailPassword"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("outlook.office365.com")]
+        public string EmailServer {
+            get {
+                return ((string)(this["EmailServer"]));
+            }
+            set {
+                this["EmailServer"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("IHS")]
+        public string Mailbox {
+            get {
+                return ((string)(this["Mailbox"]));
+            }
+            set {
+                this["Mailbox"] = value;
             }
         }
     }
