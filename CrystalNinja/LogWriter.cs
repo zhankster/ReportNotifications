@@ -29,7 +29,7 @@ namespace CrystalReportsNinja
                 date = DateTime.Now.ToString("dd-MM-yyyy");
                 time = DateTime.Now.ToString("HH:mm:ss");
 
-                writer.WriteLine(string.Format("{0}\t{1}\t{2}", date, time, text));
+                writer.WriteLine(string.Format("{0} {1}\t{2}", date, time, text));
                 writer.Close();
                 writer.Dispose();
             }

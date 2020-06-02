@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using CrystalReportsNinja;
 
 namespace ReportNotifications
 {
@@ -23,6 +24,8 @@ namespace ReportNotifications
             //frm.lvProcessing.Items.Add(itm);
             //frm.WriteActivity(msg);
             Program.MainForm.lvProcessing.Items.Add(itm);
+            LogWriter lw = new LogWriter("log.txt");
+            lw.Write(msg);
             //Program.MainForm.WriteActivity(msg);
         }
     }

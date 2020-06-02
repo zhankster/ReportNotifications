@@ -82,6 +82,11 @@ namespace CrystalReportsNinja
             _outputFormat = ReportArguments.OutputFormat;
             _printToPrinter = ReportArguments.PrintOutput;
 
+            if (_outputFormat.ToUpper() == "PRINT")
+            {
+                _printToPrinter = true;
+            }
+
             bool specifiedFileName = _outputFilename != null ? true : false;
             bool specifiedFormat = _outputFormat != null ? true : false;
 

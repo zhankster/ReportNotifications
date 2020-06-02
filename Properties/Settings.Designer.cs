@@ -25,7 +25,7 @@ namespace ReportNotifications.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=(local);Initial Catalog=CIPS;Integrated Security=true")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=192.168.2.6;Initial Catalog=CIPS;Integrated Security=true")]
         public string CIPS {
             get {
                 return ((string)(this["CIPS"]));
@@ -37,7 +37,7 @@ namespace ReportNotifications.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=(local);Initial Catalog=RxBackend;Integrated Security=true")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=192.168.2.6;Initial Catalog=RxBackend;Integrated Security=true")]
         public string RxBackend {
             get {
                 return ((string)(this["RxBackend"]));
@@ -85,7 +85,7 @@ namespace ReportNotifications.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("zrefugee@gmail.com")]
+        [global::System.Configuration.DefaultSettingValueAttribute("operations@ihspharmacy.com")]
         public string EmailAddress {
             get {
                 return ((string)(this["EmailAddress"]));
@@ -97,7 +97,7 @@ namespace ReportNotifications.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("/wfORGDSeIA=")]
+        [global::System.Configuration.DefaultSettingValueAttribute("PFnCH5WMt+nIMrCEObfhVA==")]
         public string EmailPassword {
             get {
                 return ((string)(this["EmailPassword"]));
@@ -128,6 +128,90 @@ namespace ReportNotifications.Properties {
             }
             set {
                 this["Mailbox"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("cips9")]
+        public string DSN_CIPS {
+            get {
+                return ((string)(this["DSN_CIPS"]));
+            }
+            set {
+                this["DSN_CIPS"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Rx")]
+        public string DSN_RxBackend {
+            get {
+                return ((string)(this["DSN_RxBackend"]));
+            }
+            set {
+                this["DSN_RxBackend"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("587")]
+        public int EmailPort {
+            get {
+                return ((int)(this["EmailPort"]));
+            }
+            set {
+                this["EmailPort"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("ActiveFax")]
+        public string FaxPrinter {
+            get {
+                return ((string)(this["FaxPrinter"]));
+            }
+            set {
+                this["FaxPrinter"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("q9fs2m6fm2iekpie72f5ufdvf0@group.calendar.google.com")]
+        public string CalendarID {
+            get {
+                return ((string)(this["CalendarID"]));
+            }
+            set {
+                this["CalendarID"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("\\\\IHSADAF1\\activerx\\")]
+        public string FaxFolder {
+            get {
+                return ((string)(this["FaxFolder"]));
+            }
+            set {
+                this["FaxFolder"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("keilad@ihspharmacy.com")]
+        public string ForwardAddress {
+            get {
+                return ((string)(this["ForwardAddress"]));
+            }
+            set {
+                this["ForwardAddress"] = value;
             }
         }
     }

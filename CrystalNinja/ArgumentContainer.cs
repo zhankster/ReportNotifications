@@ -104,7 +104,7 @@ namespace CrystalReportsNinja
         public void ReadArguments(string[] parameters)
         {
             Main frm = new Main();
-            frm.WriteActivity("test");
+            //Utility.WriteActivity("test");
             if (parameters.Length == 0)
                 throw new Exception("No parameter is specified!");
 

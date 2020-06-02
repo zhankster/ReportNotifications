@@ -3,7 +3,7 @@ update _FAC_ALT set EMAIL = 'dekalb.hda@gmail.com;hank@dekalbal.com;zrefugee@gma
 delete from CIPS.dbo.FAC where DNAME = 'DEKALB (DJ) CO JAIL (AL)'
 
 select * into _FAC_ALT FROM FAC_ALT
-
+select * from RPT_ACTIVITY order by CREATED desc
 
 select * from FAC_ALT
 delete from FAC_ALT where dcode is null
